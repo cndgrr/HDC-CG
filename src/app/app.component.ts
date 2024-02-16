@@ -29,7 +29,9 @@ import { MatAnchor } from '@angular/material/button';
       <nav>
         <ul class="flex justify-center items-center gap-4">
           <li><a [routerLink]="['']" mat-raised-button>Home</a></li>
-          <li><a [routerLink]="['settings']" mat-raised-button>Settings</a></li>
+          <li>
+            <a [routerLink]="['settings']" mat-raised-button>Just spend ✔️</a>
+          </li>
         </ul>
       </nav>
     </header>
