@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { WalletStore } from '@heavy-duty/wallet-adapter';
 import { HdWalletMultiButtonComponent } from '@heavy-duty/wallet-adapter-material';
+import { ShyftApiService } from './shyft-api.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { computedAsync } from 'ngxtension/computed-async';
 
 @Component({
   standalone: true,
@@ -14,8 +18,16 @@ import { HdWalletMultiButtonComponent } from '@heavy-duty/wallet-adapter-materia
       </div>
     </header>
 
-    <main></main>`,
+    <main>
+      {{ account()?.balance }}
+    </main>`,
 })
 export class AppComponent {
-  title = 'CG Bank';
+  private readonly _shyftApiService = inject(ShyftApiService);
+  private readonly _walletStore = inject(WalletStore);
+  private readonly _publicKey = toSignal(this._walletStore.publicKey$);
+
+  readonly account = computedAsync(() =>
+    this._shyftApiService.getAccount(this._publicKey()?.toBase58()),
+  );
 }
