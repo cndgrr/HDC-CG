@@ -19,18 +19,11 @@ import { MatAnchor } from '@angular/material/button';
         <hd-wallet-multi-button></hd-wallet-multi-button>
       </div>
 
-      @if (account()) {
-        <div class="flex justify-center mb-4">
-          <img [src]="account()?.info?.image" class="w-8 h-8" />
-          <p class="text-xl">{{ account()?.balance }}</p>
-        </div>
-      }
-
       <nav>
         <ul class="flex justify-center items-center gap-4">
           <li><a [routerLink]="['']" mat-raised-button>Home</a></li>
           <li>
-            <a [routerLink]="['settings']" mat-raised-button>Just spend ✔️</a>
+            <a [routerLink]="['balance']" mat-raised-button>Just spend ✔️</a>
           </li>
         </ul>
       </nav>
@@ -39,13 +32,4 @@ import { MatAnchor } from '@angular/material/button';
     <main><router-outlet></router-outlet></main>
   `,
 })
-export class AppComponent {
-  private readonly _shyftApiService = inject(ShyftApiService);
-  private readonly _walletStore = inject(WalletStore);
-  private readonly _publicKey = toSignal(this._walletStore.publicKey$);
-
-  readonly account = computedAsync(
-    () => this._shyftApiService.getAccount(this._publicKey()?.toBase58()),
-    { requireSync: true },
-  );
-}
+export class AppComponent {}
