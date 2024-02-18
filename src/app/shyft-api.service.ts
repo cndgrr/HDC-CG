@@ -15,15 +15,50 @@ export class ShyftApiService {
 
     const url = new URL('https://api.shyft.to/sol/v1/wallet/token_balance');
 
-    url.searchParams.append('network', 'mainnet-beta');
-    url.searchParams.append('wallet', publicKey);
-    url.searchParams.append('token', this._mint);
+    url.searchParams.set('network', 'mainnet-beta');
+    url.searchParams.set('wallet', publicKey);
+    url.searchParams.set('token', this._mint);
 
     return this._httpClient
       .get<{ result: { balance: number; info: { image: string } } }>(
         url.toString(),
         { headers: this._headers },
       )
-      .pipe(map(({ result }) => result));
+      .pipe(map((response) => response.result));
+  }
+  getBalance(publicKey: string | null | undefined) {
+    if (!publicKey) {
+      return of(null);
+    }
+
+    const url = new URL('https://api.shyft.to/sol/v1/wallet/balance');
+
+    url.searchParams.set('network', 'mainnet-beta');
+    url.searchParams.set('wallet', publicKey);
+
+    return this._httpClient
+      .get<{ result: { balance: number } }>(url.toString(), {
+        headers: this._headers,
+      })
+      .pipe(map((response) => response.result));
+  }
+
+  getTransactions(publicKey: string | null | undefined) {
+    if (!publicKey) {
+      return of(null);
+    }
+
+    const url = new URL('https://api.shyft.to/sol/v1/transaction/history');
+
+    url.searchParams.set('network', 'mainnet-beta');
+    url.searchParams.set('account', publicKey);
+    url.searchParams.set('tx_num', '5');
+
+    return this._httpClient
+      .get<{ result: { status: string; type: string; timestamp: string }[] }>(
+        url.toString(),
+        { headers: this._headers },
+      )
+      .pipe(map((response) => response.result));
   }
 }

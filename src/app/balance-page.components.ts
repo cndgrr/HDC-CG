@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
-import { ShyftApiService } from './shyft-api.service';
 import { BalanceSectionComponent } from './balance-section.component';
+import { transactionsSectionComponent } from './transactions-section.component';
 
 @Component({
   selector: 'cg-balance-page',
-  template: ` <cg-balance-section> </cg-balance-section> `,
+  template: `
+    <div class="flex justify-center gap-4">
+      <cg-balance-section> </cg-balance-section>
+      <cg-transactions-section> </cg-transactions-section>
+    </div>
+  `,
   standalone: true,
-  imports: [BalanceSectionComponent],
+  imports: [BalanceSectionComponent, transactionsSectionComponent],
 })
 export class BalancePageComponent {}
