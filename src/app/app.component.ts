@@ -1,16 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { injectPublicKey } from '@heavy-duty/wallet-adapter';
+import { ConnectionStore, injectPublicKey } from '@heavy-duty/wallet-adapter';
 import { HdWalletMultiButtonComponent } from '@heavy-duty/wallet-adapter-material';
 import { ShyftApiService } from './shyft-api.service';
 import { computedAsync } from 'ngxtension/computed-async';
 import { MatDialog } from '@angular/material/dialog';
 import { TransferModalComponent } from './transfer-modal.component';
-import { MatButton } from '@angular/material/button';
 
 @Component({
   standalone: true,
-  imports: [RouterOutlet, HdWalletMultiButtonComponent, MatButton],
+  imports: [RouterOutlet, HdWalletMultiButtonComponent],
   selector: 'cg-root',
   template: `
     <header class="pb-4 pt-16 relative">
@@ -29,30 +28,27 @@ import { MatButton } from '@angular/material/button';
         </div>
       }
     </header>
-    <div class="flex justify-center mb-5">
-      <button mat-raised-button (click)="onTransfer()" color="primary">
-        Let's spend...
-      </button>
-    </div>
+    <div class="flex justify-center mb-5"></div>
     <main><router-outlet></router-outlet></main>
     <footer class="my-4 text-center px-3 py-3 text-black bg-white">
       You should be spending more...
     </footer>
   `,
 })
-export class AppComponent {
-  //onTransfer() {
-  //throw new Error('Method not implemented.');
-  //}
+export class AppComponent implements OnInit {
   private readonly _shyftApiService = inject(ShyftApiService);
   private readonly _publicKey = injectPublicKey();
-  private readonly _matDioalog = inject(MatDialog);
+  private readonly _matDialog = inject(MatDialog);
+  private readonly _connectionStore = inject(ConnectionStore);
 
   readonly balance = computedAsync(() =>
     this._shyftApiService.getBalance(this._publicKey()?.toBase58()),
   );
 
+  ngOnInit() {
+    this._connectionStore.setEndpoint(this._shyftApiService.getEndpoint());
+  }
   onTransfer() {
-    this._matDioalog.open(TransferModalComponent);
+    this._matDialog.open(TransferModalComponent);
   }
 }

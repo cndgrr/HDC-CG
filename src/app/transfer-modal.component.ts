@@ -18,8 +18,6 @@ import { createTransferInstructions } from '@heavy-duty/spl-utils';
 export class TransferModalComponent {
   private readonly _transactionSender = injectTransactionSender();
   onTransfer(payload: transferFormPayload) {
-    console.log('Lets spend...', payload);
-
     this._transactionSender
       .send(({ publicKey }) =>
         createTransferInstructions({
@@ -32,7 +30,7 @@ export class TransferModalComponent {
         }),
       )
       .subscribe({
-        next: (signature) => console.log(`Transaction sent: ${signature}`),
+        next: (signature) => console.log(`Spend now: ${signature}`),
         error: (error) => console.error(error),
         complete: () => console.log('You just spent! 🎉'),
       });
