@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BalanceSectionComponent } from './balance-section.component';
-import { transactionsSectionComponent } from './transactions-section.component';
+import { TransactionsSectionComponent } from './transactions-section.component';
 
 @Component({
   selector: 'cg-balance-page',
@@ -11,6 +11,6 @@ import { transactionsSectionComponent } from './transactions-section.component';
     </div>
   `,
   standalone: true,
-  imports: [BalanceSectionComponent, transactionsSectionComponent],
+  imports: [BalanceSectionComponent, TransactionsSectionComponent],
 })
 export class BalancePageComponent {}

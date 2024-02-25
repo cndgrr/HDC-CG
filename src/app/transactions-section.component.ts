@@ -45,7 +45,7 @@ import { ShyftApiService } from './shyft-api.service';
     </mat-card>
   `,
 })
-export class transactionsSectionComponent {
+export class TransactionsSectionComponent {
   private readonly _shyftApiService = inject(ShyftApiService);
   private readonly _publicKey = injectPublicKey();
 
