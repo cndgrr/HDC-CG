@@ -28,7 +28,7 @@ import { computedAsync } from 'ngxtension/computed-async';
     </header>
 
     <main><router-outlet></router-outlet></main>
-    <footer class="text-center px-3 py-3 text-black">
+    <footer class="my-4 text-center px-3 py-3 text-black bg-white">
       You should be spending more...
     </footer>
   `,
